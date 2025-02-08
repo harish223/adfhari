@@ -1,0 +1,26 @@
+{
+	"name": "Event_trigger",
+	"properties": {
+		"description": "This is event trigger",
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "EVENT_TRIGGER",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "BlobEventsTrigger",
+		"typeProperties": {
+			"blobPathBeginsWith": "/eventtrigger/blobs/input",
+			"blobPathEndsWith": ".txt",
+			"ignoreEmptyBlobs": true,
+			"scope": "/subscriptions/274d674b-7f3c-4a85-95ed-fdb21746ef16/resourceGroups/RG-ADF/providers/Microsoft.Storage/storageAccounts/storageadf223",
+			"events": [
+				"Microsoft.Storage.BlobCreated"
+			]
+		}
+	}
+}

@@ -1,0 +1,25 @@
+{
+	"name": "SCHEDULE_TRIGGER",
+	"properties": {
+		"description": "THIS IS SCHEDULE TRIGGER",
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "SCHEDULE_TRIGGER1",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Minute",
+				"interval": 1,
+				"startTime": "2025-02-06T05:27:00",
+				"timeZone": "India Standard Time"
+			}
+		}
+	}
+}

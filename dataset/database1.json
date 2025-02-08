@@ -1,0 +1,27 @@
+{
+	"name": "database1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_SQL_1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "name",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "tab_1"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

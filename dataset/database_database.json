@@ -1,0 +1,38 @@
+{
+	"name": "database_database",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_database_database",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"SCHEMA": {
+				"type": "string"
+			},
+			"TABLENAME": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "name",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": {
+				"value": "@dataset().TABLENAME",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
