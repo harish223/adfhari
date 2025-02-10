@@ -30,6 +30,124 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/TARGET_FILE')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_BLOB_ADF",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": "output",
+						"container": "test"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "empno",
+						"type": "String"
+					},
+					{
+						"name": "ename",
+						"type": "String"
+					},
+					{
+						"name": "job",
+						"type": "String"
+					},
+					{
+						"name": "mgr",
+						"type": "String"
+					},
+					{
+						"name": "hiredate",
+						"type": "String"
+					},
+					{
+						"name": "sal",
+						"type": "String"
+					},
+					{
+						"name": "comm",
+						"type": "String"
+					},
+					{
+						"name": "deptno",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/copy')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_BLOB_ADF",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": "input/sub_folder",
+						"container": "test"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "empno",
+						"type": "String"
+					},
+					{
+						"name": "ename",
+						"type": "String"
+					},
+					{
+						"name": "job",
+						"type": "String"
+					},
+					{
+						"name": "mgr",
+						"type": "String"
+					},
+					{
+						"name": "hiredate",
+						"type": "String"
+					},
+					{
+						"name": "sal",
+						"type": "String"
+					},
+					{
+						"name": "comm",
+						"type": "String"
+					},
+					{
+						"name": "deptno",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/copy_until')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -801,235 +919,6 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/sourcefile_1')]"
 			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/EMPB_PIPELINE')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy data1",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "dynamic_tbl",
-								"type": "DatasetReference",
-								"parameters": {
-									"test": "tab_a"
-								}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "dynamic_tbl",
-								"type": "DatasetReference",
-								"parameters": {
-									"test": "tab_c"
-								}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/dynamic_tbl')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/EVENT_TRIGGER')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy data1",
-						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "DelimitedTextSource",
-								"storeSettings": {
-									"type": "AzureBlobStorageReadSettings",
-									"recursive": true,
-									"wildcardFolderPath": "input",
-									"wildcardFileName": "*csv",
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
-								}
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "Dynamic_event_trigger",
-								"type": "DatasetReference",
-								"parameters": {
-									"container_name": "eventtrigger",
-									"folder_name": "input"
-								}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "Dynamic_event_trigger",
-								"type": "DatasetReference",
-								"parameters": {
-									"container_name": "eventtrigger",
-									"folder_name": "output"
-								}
-							}
-						]
-					},
-					{
-						"name": "Copy data2",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "DelimitedTextSource",
-								"storeSettings": {
-									"type": "AzureBlobStorageReadSettings",
-									"recursive": true,
-									"wildcardFolderPath": "input",
-									"wildcardFileName": "*txt",
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
-								}
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "Dynamic_event_trigger",
-								"type": "DatasetReference",
-								"parameters": {
-									"container_name": "eventtrigger",
-									"folder_name": "input"
-								}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "Dynamic_event_trigger",
-								"type": "DatasetReference",
-								"parameters": {
-									"container_name": "eventtrigger",
-									"folder_name": "output"
-								}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"variables": {
-					"containername": {
-						"type": "String"
-					},
-					"foldername": {
-						"type": "String"
-					}
-				},
-				"annotations": [],
-				"lastPublishTime": "2025-02-06T07:55:35Z"
-			},
-			"dependsOn": []
 		}
 	]
 }

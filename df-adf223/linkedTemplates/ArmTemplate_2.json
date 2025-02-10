@@ -13,6 +13,233 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/EMPB_PIPELINE')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "dynamic_tbl",
+								"type": "DatasetReference",
+								"parameters": {
+									"test": "tab_a"
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "dynamic_tbl",
+								"type": "DatasetReference",
+								"parameters": {
+									"test": "tab_c"
+								}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/EVENT_TRIGGER')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"wildcardFolderPath": "input",
+									"wildcardFileName": "*csv",
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "Dynamic_event_trigger",
+								"type": "DatasetReference",
+								"parameters": {
+									"container_name": "eventtrigger",
+									"folder_name": "input"
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "Dynamic_event_trigger",
+								"type": "DatasetReference",
+								"parameters": {
+									"container_name": "eventtrigger",
+									"folder_name": "output"
+								}
+							}
+						]
+					},
+					{
+						"name": "Copy data2",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"wildcardFolderPath": "input",
+									"wildcardFileName": "*txt",
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "Dynamic_event_trigger",
+								"type": "DatasetReference",
+								"parameters": {
+									"container_name": "eventtrigger",
+									"folder_name": "input"
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "Dynamic_event_trigger",
+								"type": "DatasetReference",
+								"parameters": {
+									"container_name": "eventtrigger",
+									"folder_name": "output"
+								}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"variables": {
+					"containername": {
+						"type": "String"
+					},
+					"foldername": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"lastPublishTime": "2025-02-06T07:55:35Z"
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/IF_ACTIVITY')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -1620,42 +1847,11 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/delete')]",
+			"name": "[concat(parameters('factoryName'), '/delete_dynamic_para')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
-					{
-						"name": "Stored procedure1",
-						"type": "SqlServerStoredProcedure",
-						"dependsOn": [
-							{
-								"activity": "Lookup1",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"storedProcedureName": "[[dbo].[delete_table]",
-							"storedProcedureParameters": {
-								"value": "@activity('Lookup1').output.value",
-								"type": "Expression"
-							}
-						},
-						"linkedServiceName": {
-							"referenceName": "LS_SQL_1",
-							"type": "LinkedServiceReference"
-						}
-					},
 					{
 						"name": "Lookup1",
 						"type": "Lookup",
@@ -1678,23 +1874,66 @@
 								"referenceName": "dynamic_tbl",
 								"type": "DatasetReference",
 								"parameters": {
-									"test": {
-										"value": "@pipeline().parameters.table_name",
-										"type": "Expression"
-									}
+									"test": "delete_list"
 								}
 							},
 							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "ForEach1",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "Lookup1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('Lookup1').output.value",
+								"type": "Expression"
+							},
+							"isSequential": true,
+							"activities": [
+								{
+									"name": "Stored procedure1",
+									"type": "SqlServerStoredProcedure",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"storedProcedureName": "[[dbo].[delete_dynamic_para]",
+										"storedProcedureParameters": {
+											"tablename": {
+												"value": {
+													"value": "@item().table_name",
+													"type": "Expression"
+												},
+												"type": "String"
+											}
+										}
+									},
+									"linkedServiceName": {
+										"referenceName": "LS_SQL_1",
+										"type": "LinkedServiceReference"
+									}
+								}
+							]
 						}
 					}
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
-				},
-				"parameters": {
-					"table_name": {
-						"type": "string"
-					}
 				},
 				"annotations": []
 			},
@@ -1953,244 +2192,6 @@
 				"lastPublishTime": "2025-02-08T06:28:39Z"
 			},
 			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/until_sample2')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Until1",
-						"type": "Until",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"expression": {
-								"value": "@activity('Get Metadata1').output.exists",
-								"type": "Expression"
-							},
-							"activities": [
-								{
-									"name": "Get Metadata1",
-									"type": "GetMetadata",
-									"dependsOn": [],
-									"policy": {
-										"timeout": "0.12:00:00",
-										"retry": 0,
-										"retryIntervalInSeconds": 30,
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [],
-									"typeProperties": {
-										"dataset": {
-											"referenceName": "emp_csv_copy",
-											"type": "DatasetReference",
-											"parameters": {}
-										},
-										"fieldList": [
-											"exists"
-										],
-										"storeSettings": {
-											"type": "AzureBlobStorageReadSettings",
-											"recursive": true,
-											"enablePartitionDiscovery": false
-										},
-										"formatSettings": {
-											"type": "DelimitedTextReadSettings"
-										}
-									}
-								},
-								{
-									"name": "If Condition1",
-									"type": "IfCondition",
-									"dependsOn": [
-										{
-											"activity": "Get Metadata1",
-											"dependencyConditions": [
-												"Succeeded"
-											]
-										}
-									],
-									"userProperties": [],
-									"typeProperties": {
-										"expression": {
-											"value": "@variables('temp_litvalue')",
-											"type": "Expression"
-										},
-										"ifFalseActivities": [
-											{
-												"name": "Wait1",
-												"type": "Wait",
-												"dependsOn": [],
-												"userProperties": [],
-												"typeProperties": {
-													"waitTimeInSeconds": 1
-												}
-											}
-										],
-										"ifTrueActivities": [
-											{
-												"name": "Copy data",
-												"type": "Copy",
-												"dependsOn": [],
-												"policy": {
-													"timeout": "0.12:00:00",
-													"retry": 0,
-													"retryIntervalInSeconds": 30,
-													"secureOutput": false,
-													"secureInput": false
-												},
-												"userProperties": [],
-												"typeProperties": {
-													"source": {
-														"type": "DelimitedTextSource",
-														"storeSettings": {
-															"type": "AzureBlobStorageReadSettings",
-															"recursive": true,
-															"enablePartitionDiscovery": false
-														},
-														"formatSettings": {
-															"type": "DelimitedTextReadSettings"
-														}
-													},
-													"sink": {
-														"type": "DelimitedTextSink",
-														"storeSettings": {
-															"type": "AzureBlobStorageWriteSettings"
-														},
-														"formatSettings": {
-															"type": "DelimitedTextWriteSettings",
-															"quoteAllText": true,
-															"fileExtension": ".txt"
-														}
-													},
-													"enableStaging": false,
-													"translator": {
-														"type": "TabularTranslator",
-														"typeConversion": true,
-														"typeConversionSettings": {
-															"allowDataTruncation": true,
-															"treatBooleanAsNumber": false
-														}
-													}
-												},
-												"inputs": [
-													{
-														"referenceName": "emp_csv",
-														"type": "DatasetReference",
-														"parameters": {}
-													}
-												],
-												"outputs": [
-													{
-														"referenceName": "copy_until",
-														"type": "DatasetReference",
-														"parameters": {}
-													}
-												]
-											}
-										]
-									}
-								},
-								{
-									"name": "Set variable1",
-									"type": "SetVariable",
-									"dependsOn": [],
-									"policy": {
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [],
-									"typeProperties": {
-										"variableName": "lit_value",
-										"value": {
-											"value": "@add(variables('temp_litvalue'),1)",
-											"type": "Expression"
-										}
-									}
-								},
-								{
-									"name": "Set variable2",
-									"type": "SetVariable",
-									"dependsOn": [
-										{
-											"activity": "Set variable1",
-											"dependencyConditions": [
-												"Succeeded"
-											]
-										}
-									],
-									"policy": {
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [],
-									"typeProperties": {
-										"variableName": "temp_litvalue",
-										"value": {
-											"value": "@variables('lit_value')",
-											"type": "Expression"
-										}
-									}
-								}
-							],
-							"timeout": "0.12:00:00"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"variables": {
-					"lit_value": {
-						"type": "Integer",
-						"defaultValue": 0
-					},
-					"temp_litvalue": {
-						"type": "Integer",
-						"defaultValue": 0
-					}
-				},
-				"annotations": [],
-				"lastPublishTime": "2025-02-05T16:55:52Z"
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/EXECUTPIPELINE')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Execute Pipeline1",
-						"type": "ExecutePipeline",
-						"dependsOn": [],
-						"policy": {
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "WEBACTIVITY",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {}
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": [],
-				"lastPublishTime": "2025-02-07T10:31:50Z"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/WEBACTIVITY')]"
-			]
 		}
 	]
 }
