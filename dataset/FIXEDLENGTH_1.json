@@ -1,0 +1,29 @@
+{
+	"name": "FIXEDLENGTH_1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_BLOB_ADF",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "FIXED LENGTH TEXT.txt",
+				"folderPath": "input",
+				"container": "test"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "001John     Doe       30MNew York   USA     ",
+				"type": "String"
+			}
+		]
+	}
+}
