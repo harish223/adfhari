@@ -22,9 +22,8 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"storedProcedureName": "[dbo].[delete_tab_1]",
 					"storedProcedureParameters": {
-						"value": "@activity('Lookup1').output",
+						"value": "@activity('Lookup1').output.value",
 						"type": "Expression"
 					}
 				},
@@ -60,7 +59,8 @@
 								"type": "Expression"
 							}
 						}
-					}
+					},
+					"firstRowOnly": false
 				}
 			}
 		],
