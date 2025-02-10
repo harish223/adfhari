@@ -22,6 +22,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
+					"storedProcedureName": "[dbo].[delete_table]",
 					"storedProcedureParameters": {
 						"value": "@activity('Lookup1').output.value",
 						"type": "Expression"
