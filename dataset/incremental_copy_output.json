@@ -1,0 +1,23 @@
+{
+	"name": "incremental_copy_output",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_BLOB_ADF",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "xyz_increm",
+				"container": "test"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
