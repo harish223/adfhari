@@ -1,0 +1,114 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "df-adf223"
+		},
+		"AzureSqlDatabase1_password": {
+			"value": ""
+		},
+		"LS_BLOB_ADF_connectionString": {
+			"value": ""
+		},
+		"LS_BLOB_KV_connectionString": {
+			"value": "DefaultEndpointsProtocol=https;AccountName=storageadf223;"
+		},
+		"LS_SQL_1_password": {
+			"value": ""
+		},
+		"LS_SQL_PARAMET_password": {
+			"value": ""
+		},
+		"LS_SQL_PARAMET_DB_password": {
+			"value": ""
+		},
+		"LS_database_database_password": {
+			"value": ""
+		},
+		"databse_databseout_password": {
+			"value": ""
+		},
+		"AzureSqlDatabase1_properties_typeProperties_server": {
+			"value": "sqlserveradf223.database.windows.net"
+		},
+		"AzureSqlDatabase1_properties_typeProperties_database": {
+			"value": "SQLSERVER"
+		},
+		"AzureSqlDatabase1_properties_typeProperties_userName": {
+			"value": "Harish"
+		},
+		"KVAZURE_properties_typeProperties_baseUrl": {
+			"value": "https://kv-adf223.vault.azure.net/"
+		},
+		"LS_SQL_1_properties_typeProperties_server": {
+			"value": "sqlserveradf223.database.windows.net"
+		},
+		"LS_SQL_1_properties_typeProperties_database": {
+			"value": "SQLSERVER"
+		},
+		"LS_SQL_1_properties_typeProperties_userName": {
+			"value": "Harish"
+		},
+		"LS_SQL_KV_properties_typeProperties_server": {
+			"value": "sqlserveradf223.database.windows.net"
+		},
+		"LS_SQL_KV_properties_typeProperties_database": {
+			"value": "SQLSERVER"
+		},
+		"LS_SQL_KV_properties_typeProperties_userName": {
+			"value": "Harish"
+		},
+		"LS_SQL_PARAMET_properties_typeProperties_server": {
+			"value": "sqlserveradf223.database.windows.net"
+		},
+		"LS_SQL_PARAMET_properties_typeProperties_database": {
+			"value": "SQLSERVER"
+		},
+		"LS_SQL_PARAMET_properties_typeProperties_userName": {
+			"value": "HARISH"
+		},
+		"LS_SQL_PARAMET_DB_properties_typeProperties_server": {
+			"value": "sqlserveradf223.database.windows.net"
+		},
+		"LS_SQL_PARAMET_DB_properties_typeProperties_database": {
+			"value": "@{linkedService().db_name}"
+		},
+		"LS_SQL_PARAMET_DB_properties_typeProperties_userName": {
+			"value": "Harish"
+		},
+		"LS_database_database_properties_typeProperties_server": {
+			"value": "sqlserveradf223.database.windows.net"
+		},
+		"LS_database_database_properties_typeProperties_database": {
+			"value": "SQLSERVER"
+		},
+		"LS_database_database_properties_typeProperties_userName": {
+			"value": "Harish"
+		},
+		"databse_databseout_properties_typeProperties_server": {
+			"value": "sqlserveradf223.database.windows.net"
+		},
+		"databse_databseout_properties_typeProperties_database": {
+			"value": "hyderabad"
+		},
+		"databse_databseout_properties_typeProperties_userName": {
+			"value": "Harish"
+		},
+		"Event_trigger_properties_typeProperties_scope": {
+			"value": "/subscriptions/274d674b-7f3c-4a85-95ed-fdb21746ef16/resourceGroups/RG-ADF/providers/Microsoft.Storage/storageAccounts/storageadf223"
+		},
+		"TUMBLING_properties_pipeline_parameters_Window_Start_Tme": {
+			"value": "@trigger().outputs.windowStartTime"
+		},
+		"TUMBLING_properties_pipeline_parameters_Window_End_Tme": {
+			"value": "@trigger().outputs.windowEndTime"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
