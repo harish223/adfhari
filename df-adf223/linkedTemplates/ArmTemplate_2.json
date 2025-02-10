@@ -1645,9 +1645,9 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"storedProcedureName": "[[dbo].[delete_tab_1]",
+							"storedProcedureName": "[[dbo].[delete_table]",
 							"storedProcedureParameters": {
-								"value": "@activity('Lookup1').output",
+								"value": "@activity('Lookup1').output.value",
 								"type": "Expression"
 							}
 						},
@@ -1683,7 +1683,8 @@
 										"type": "Expression"
 									}
 								}
-							}
+							},
+							"firstRowOnly": false
 						}
 					}
 				],
@@ -1845,8 +1846,8 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "Get Metadata1",
-						"type": "GetMetadata",
+						"name": "Delete1",
+						"type": "Delete",
 						"dependsOn": [],
 						"policy": {
 							"timeout": "0.12:00:00",
@@ -1858,163 +1859,24 @@
 						"userProperties": [],
 						"typeProperties": {
 							"dataset": {
-								"referenceName": "sourcefile_1",
+								"referenceName": "TARGET_FILE",
 								"type": "DatasetReference",
 								"parameters": {}
 							},
-							"fieldList": [
-								"childItems"
-							],
+							"logStorageSettings": {
+								"linkedServiceName": {
+									"referenceName": "LS_BLOB_ADF",
+									"type": "LinkedServiceReference"
+								},
+								"path": "test/logs"
+							},
+							"enableLogging": true,
 							"storeSettings": {
 								"type": "AzureBlobStorageReadSettings",
 								"recursive": true,
+								"wildcardFileName": "*.csv",
 								"enablePartitionDiscovery": false
-							},
-							"formatSettings": {
-								"type": "DelimitedTextReadSettings"
 							}
-						}
-					},
-					{
-						"name": "ForEach1",
-						"type": "ForEach",
-						"dependsOn": [
-							{
-								"activity": "Get Metadata1",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"items": {
-								"value": "@activity('Get Metadata1').output.childItems",
-								"type": "Expression"
-							},
-							"activities": [
-								{
-									"name": "Get Metadata2",
-									"type": "GetMetadata",
-									"state": "Inactive",
-									"onInactiveMarkAs": "Succeeded",
-									"dependsOn": [],
-									"policy": {
-										"timeout": "0.12:00:00",
-										"retry": 0,
-										"retryIntervalInSeconds": 30,
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [],
-									"typeProperties": {
-										"dataset": {
-											"referenceName": "sourcefile_1",
-											"type": "DatasetReference",
-											"parameters": {}
-										},
-										"fieldList": [
-											"itemType"
-										],
-										"storeSettings": {
-											"type": "AzureBlobStorageReadSettings",
-											"recursive": true,
-											"enablePartitionDiscovery": false
-										},
-										"formatSettings": {
-											"type": "DelimitedTextReadSettings"
-										}
-									}
-								},
-								{
-									"name": "Switch1",
-									"type": "Switch",
-									"state": "Inactive",
-									"onInactiveMarkAs": "Succeeded",
-									"dependsOn": [
-										{
-											"activity": "Get Metadata2",
-											"dependencyConditions": [
-												"Succeeded"
-											]
-										}
-									],
-									"userProperties": [],
-									"typeProperties": {
-										"cases": [
-											{
-												"value": "Case1",
-												"activities": [
-													{
-														"name": "Copy_csv",
-														"type": "Copy",
-														"dependsOn": [],
-														"policy": {
-															"timeout": "0.12:00:00",
-															"retry": 0,
-															"retryIntervalInSeconds": 30,
-															"secureOutput": false,
-															"secureInput": false
-														},
-														"userProperties": [],
-														"typeProperties": {
-															"source": {
-																"type": "DelimitedTextSource",
-																"storeSettings": {
-																	"type": "AzureBlobStorageReadSettings",
-																	"recursive": true,
-																	"wildcardFileName": "*csv",
-																	"enablePartitionDiscovery": false
-																},
-																"formatSettings": {
-																	"type": "DelimitedTextReadSettings"
-																}
-															},
-															"sink": {
-																"type": "DelimitedTextSink",
-																"storeSettings": {
-																	"type": "AzureBlobStorageWriteSettings"
-																},
-																"formatSettings": {
-																	"type": "DelimitedTextWriteSettings",
-																	"quoteAllText": true,
-																	"fileExtension": ".txt"
-																}
-															},
-															"enableStaging": false,
-															"translator": {
-																"type": "TabularTranslator",
-																"typeConversion": true,
-																"typeConversionSettings": {
-																	"allowDataTruncation": true,
-																	"treatBooleanAsNumber": false
-																}
-															}
-														},
-														"inputs": [
-															{
-																"referenceName": "sourcefile_1",
-																"type": "DatasetReference",
-																"parameters": {}
-															}
-														],
-														"outputs": [
-															{
-																"referenceName": "sourcefile_1",
-																"type": "DatasetReference",
-																"parameters": {}
-															}
-														]
-													}
-												]
-											},
-											{
-												"value": "Case2"
-											}
-										]
-									}
-								}
-							]
 						}
 					}
 				],
