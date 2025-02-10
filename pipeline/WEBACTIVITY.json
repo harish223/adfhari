@@ -65,7 +65,7 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"method": "POST"
+								"method": "GET"
 							}
 						},
 						{
