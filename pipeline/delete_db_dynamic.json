@@ -1,5 +1,5 @@
 {
-	"name": "delete",
+	"name": "delete_db_dynamic",
 	"properties": {
 		"activities": [
 			{
@@ -15,7 +15,16 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"storedProcedureName": "[dbo].[delete_tab_1]"
+					"storedProcedureName": "[dbo].[delete_dynamic_para]",
+					"storedProcedureParameters": {
+						"tablename": {
+							"value": {
+								"value": "@pipeline().parameters.tablename",
+								"type": "Expression"
+							},
+							"type": "String"
+						}
+					}
 				},
 				"linkedServiceName": {
 					"referenceName": "LS_SQL_1",
@@ -23,6 +32,11 @@
 				}
 			}
 		],
+		"parameters": {
+			"tablename": {
+				"type": "string"
+			}
+		},
 		"annotations": []
 	}
 }
