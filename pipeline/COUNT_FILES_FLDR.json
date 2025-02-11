@@ -16,13 +16,51 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataset": {
-						"referenceName": "source_tbl1",
+						"referenceName": "COUNTFILES",
 						"type": "DatasetReference"
 					},
-					"fieldList": []
+					"fieldList": [
+						"childItems"
+					],
+					"storeSettings": {
+						"type": "AzureBlobStorageReadSettings",
+						"enablePartitionDiscovery": false
+					},
+					"formatSettings": {
+						"type": "DelimitedTextReadSettings"
+					}
+				}
+			},
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Get Metadata1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "filecount",
+					"value": {
+						"value": "@string(length(activity('Get Metadata1').output.childItems))",
+						"type": "Expression"
+					}
 				}
 			}
 		],
+		"variables": {
+			"filecount": {
+				"type": "String"
+			}
+		},
 		"annotations": []
 	}
 }
