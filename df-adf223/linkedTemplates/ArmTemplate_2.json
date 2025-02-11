@@ -2329,7 +2329,7 @@
 						"typeProperties": {
 							"variableName": "emailstring",
 							"value": {
-								"value": "@variables('emailarray')",
+								"value": "@join(variables('emailarray'),';')",
 								"type": "Expression"
 							}
 						}
