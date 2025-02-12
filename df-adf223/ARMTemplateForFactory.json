@@ -1941,8 +1941,6 @@
 					{
 						"name": "Get Metadata1",
 						"type": "GetMetadata",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [],
 						"policy": {
 							"timeout": "0.12:00:00",
@@ -1974,8 +1972,6 @@
 					{
 						"name": "If Condition1",
 						"type": "IfCondition",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "Get Metadata1",
@@ -1994,8 +1990,6 @@
 								{
 									"name": "Web1",
 									"type": "WebActivity",
-									"state": "Inactive",
-									"onInactiveMarkAs": "Succeeded",
 									"dependsOn": [],
 									"policy": {
 										"timeout": "0.12:00:00",
@@ -2006,8 +2000,13 @@
 									},
 									"userProperties": [],
 									"typeProperties": {
-										"method": "GET",
-										"headers": {}
+										"method": "POST",
+										"headers": {},
+										"url": "https://prod-24.centralindia.logic.azure.com:443/workflows/d033cf177eb343baa3427be7f55a301f/triggers/When_a_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_a_HTTP_request_is_received%2Frun&sv=1.0&sig=68aD91TIcnDqQDwzWE01HSs_TLGuuLVJf6pgAskfYEY",
+										"body": {
+											"value": "{\n    \"PipelineName\": \"@{pipeline().Pipeline}\",\n    \"DataFactoryName\": \"@{pipeline().DataFactory}\",\n    \"ErrorMessage\": \"File is Missing\"\n}",
+											"type": "Expression"
+										}
 									}
 								},
 								{
@@ -2533,6 +2532,49 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/sourcefile_1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/copy_multipul')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Lookup1",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "SELECT TABLE SCHEMA TABLE_NAME FROM information_schema.TABLES \nWHERE TABLE_TYPE='BASE TABLE' AND TABLE_SCHEMA='dbo'",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "copy_multiple",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/copy_multiple')]"
 			]
 		},
 		{
@@ -3994,6 +4036,27 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/LS_BLOB_ADF')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/copy_multiple')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SQL_1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "table"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_SQL_1')]"
 			]
 		},
 		{
