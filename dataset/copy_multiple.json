@@ -1,0 +1,16 @@
+{
+	"name": "copy_multiple",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_SQL_1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "table"
+		}
+	}
+}
