@@ -1,0 +1,16 @@
+{
+	"name": "ds_customer",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_sqlhyd",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "HARI",
+			"table": "CUSTOMER"
+		}
+	}
+}

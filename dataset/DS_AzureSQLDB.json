@@ -1,0 +1,19 @@
+{
+	"name": "DS_AzureSQLDB",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_SQL_1",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Targets"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "HARISH",
+			"table": "CUSTOMERS1"
+		}
+	}
+}
