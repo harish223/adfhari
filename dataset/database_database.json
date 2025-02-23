@@ -1,10 +1,6 @@
 {
 	"name": "database_database",
 	"properties": {
-		"linkedServiceName": {
-			"referenceName": "LS_database_database",
-			"type": "LinkedServiceReference"
-		},
 		"parameters": {
 			"SCHEMA": {
 				"type": "string"

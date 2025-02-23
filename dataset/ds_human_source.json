@@ -1,0 +1,33 @@
+{
+	"name": "ds_human_source",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_shir_hari_adf",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"SCHEMA": {
+				"type": "string"
+			},
+			"TABLE": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "HARI"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": {
+				"value": "@dataset().SCHEMA",
+				"type": "Expression"
+			},
+			"table": {
+				"value": "@dataset().TABLE",
+				"type": "Expression"
+			}
+		}
+	}
+}
