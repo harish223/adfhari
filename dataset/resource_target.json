@@ -6,7 +6,10 @@
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
-			"FILENAME": {
+			"p_filename": {
+				"type": "string"
+			},
+			"p_folder": {
 				"type": "string"
 			}
 		},
@@ -15,7 +18,14 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"folderPath": "HumanResources",
+				"fileName": {
+					"value": "@dataset().p_filename",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@concat('HumanResources/',dataset().p_folder)",
+					"type": "Expression"
+				},
 				"container": "adventureworks-2022"
 			},
 			"columnDelimiter": ",",

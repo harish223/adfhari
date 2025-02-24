@@ -117,8 +117,12 @@
 									"referenceName": "resource_target",
 									"type": "DatasetReference",
 									"parameters": {
-										"FILENAME": {
-											"value": "@concat(item().TABLE_SCHEMA,'_',item().TABLE_NAME,'.csv')",
+										"p_filename": {
+											"value": "@concat(item().TABLE_NAME,'_',formatDateTime(utcNow(),'yyyy-MM-dd HH:mm:ss'),'.csv')",
+											"type": "Expression"
+										},
+										"p_folder": {
+											"value": "@concat(item().TABLE_NAME)\n",
 											"type": "Expression"
 										}
 									}
